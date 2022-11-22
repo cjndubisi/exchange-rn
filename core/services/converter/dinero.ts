@@ -1,29 +1,38 @@
 import Dinero from 'dinero.js';
-import { ConverterCreator } from '.';
-import { Converter } from '../../type';
 
-const makeConverter: ConverterCreator['withExchange'] = (client) => {
-  const convert = async (req: Converter.Request) => {
-    const result = await Dinero({
-      amount: req.amount,
-      currency: req.from as Parameters<typeof Dinero>[0]['currency'],
-      precision: 5,
-    }).convert(req.to, {
-      endpoint: client.getRates().then((res) => {
-        return {
-          /// map to Dinero response type { rates: { EUR: 0.23, ... } }
-          rates: {
-            ...res.rates.reduce(
-              (acc, next) => ({ ...acc, [next.destination]: next.rate }),
-              {} as Record<string, number>
-            ),
-          },
-        };
-      }),
+import { ExchangeFactory, ExchangeType } from '.';
+
+type Currency = Parameters<typeof Dinero>[0]['currency'];
+const makeExchange: ExchangeFactory['withClient'] = (client) => {
+  const convert: ExchangeType['convert'] = async (req, fees) => {
+    const from = Dinero({
+      amount: Math.floor(req.amount * 100),
+      currency: req.from as Currency,
+      precision: 2,
     });
+
+    const rates = await client.getRates().then((res) => {
+      return {
+        /// map to Dinero response type { rates: { EUR: 0.23, ... } }
+        rates: {
+          ...res.rates.reduce(
+            (acc, next) => ({ ...acc, [next.destination]: next.rate }),
+            {} as Record<string, number>
+          ),
+        },
+      };
+    });
+
+    const result = await from.convert(req.to, {
+      endpoint: Promise.resolve(rates),
+    });
+    const processing = fees?.processPercent ? fees.processPercent * 100 : 0;
+
+    const withFees = result.add(result.percentage(Math.floor(processing)));
     return {
       request: req,
-      result: result.toFormat('0.0000'),
+      price: result.toFormat('0.00'),
+      plusFees: withFees.toFormat('0.00'),
     };
   };
   return {
@@ -31,8 +40,8 @@ const makeConverter: ConverterCreator['withExchange'] = (client) => {
   };
 };
 
-const dineroConverter: ConverterCreator = {
-  withExchange: makeConverter,
+const dineroConverter: ExchangeFactory = {
+  withClient: makeExchange,
 };
 
 export default dineroConverter;

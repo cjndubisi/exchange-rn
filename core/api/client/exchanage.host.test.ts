@@ -1,7 +1,7 @@
 import { mockSuccesfulResponse } from '../../util/test-util';
 import { getRateSubResponse } from './exchanage.host.fixture';
+import exhostClient from './exchange.host';
 
-import exhostClient, { EXHostGetRatesResponse } from './exchange.host';
 describe('Exchange.Host API', () => {
   it('get rates', async (done) => {
     mockSuccesfulResponse(200, 'GET', getRateSubResponse);

@@ -1,4 +1,4 @@
-import { EXHostGetRatesResponse } from "./exchange.host";
+import { EXHostGetRatesResponse } from './exchange.host';
 
 export const getRateSubResponse: EXHostGetRatesResponse = {
   base: 'EUR',

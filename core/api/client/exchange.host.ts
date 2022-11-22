@@ -1,4 +1,4 @@
-import { ExchangeAPIClient, GetRateResponse, Rate } from './type';
+import { ExchangeAPIClient, GetRateResponse, Rate } from '../client';
 
 export interface EXHostGetRatesResponse {
   base: string;
