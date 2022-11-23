@@ -1,10 +1,10 @@
 import { Currency } from 'dinero.js';
 import { useEffect, useMemo, useState } from 'react';
 import { Alert } from 'react-native';
-import { useExchangeClient } from '.';
-import exhostClient from '../../../core/api/client';
+
 import logger from '../../../core/logger';
 import dineroConverter from '../../../core/services/converter/dinero';
+import useExchangeClient from '../../../hooks/useExchangeClient';
 import useRouter from '../../../router';
 
 const showAlert = () =>
@@ -28,16 +28,14 @@ const useConvertScreenViewModel = () => {
   const [toValue, setToValue] = useState<string>('100');
   const [fromValue, setFromValue] = useState<string>('100');
   const { showSelectCurrency } = useRouter();
-  const [loadingConversion, setLoadingConversion] = useState(false);
   const [clientBase, setClientBase] = useState<Currency>(from);
-  const [focusBase, setFocusBase] = useState(from);
   const [totalCost, setTotalCost] = useState('100');
   const { client, rates, currencies, loadingExchange, exchangeError, retry } =
     useExchangeClient(clientBase);
-  const converter = dineroConverter.withClient(client);
 
   const convert = (value: string, source: 'from' | 'to') => {
     const startConversion = async () => {
+      const converter = dineroConverter.withClient(client);
       const result = await converter.convert(
         {
           from: source === 'from' ? from : to,
@@ -118,7 +116,7 @@ const useConvertScreenViewModel = () => {
     currentRate: currentRate?.rate,
     transactionFee: '3%',
     totalCost,
-    focusBase,
+    focusBase: clientBase,
     updateFrom,
     updateTo,
     fromValue,

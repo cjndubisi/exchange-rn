@@ -1,5 +1,3 @@
-import { EXHostGetRatesResponse } from "../api/client/exchange.host";
-
 export const mockSuccesfulResponse = (
   status = 200,
   method: string = 'GET',

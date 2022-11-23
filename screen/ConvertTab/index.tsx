@@ -1,11 +1,12 @@
-import { NativeScreenProps, createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
+
+import ConvertScreen from './ConvertScreen';
 import SelectCurrencyScreen from './SelectCurrencyScreen';
-import ConvertScreenHome from './ConvertTabHomeScreen';
 
 const Screens = {
   Convert: {
     name: 'Convert',
-    component: ConvertScreenHome,
+    component: ConvertScreen,
     screenOptions: {
       title: 'Exchange',
     },

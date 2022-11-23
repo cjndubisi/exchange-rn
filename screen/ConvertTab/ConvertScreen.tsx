@@ -1,11 +1,12 @@
 import { Fontisto } from '@expo/vector-icons';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { useNumericFormat } from 'react-number-format';
 
 import CurrencyInput from '../../component/CurrencyInput';
 import { Strings } from '../../resource';
 import useConvertScreenViewModel from './hooks/useConvertViewModel';
 
-const ConvertScreenHome = () => {
+const ConvertScreen = () => {
   const {
     currentRate,
     focusBase,
@@ -141,4 +142,4 @@ const style = StyleSheet.create({
   },
 });
 
-export default ConvertScreenHome;
+export default ConvertScreen;

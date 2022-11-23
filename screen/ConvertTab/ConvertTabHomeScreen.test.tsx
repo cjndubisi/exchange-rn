@@ -3,7 +3,7 @@ import { act, render, within } from '@testing-library/react-native';
 import TestRenderer from 'react-test-renderer';
 import { Strings } from '../../resource';
 
-import ConvertHomeScreen from './ConvertTabHomeScreen';
+import ConvertScreen from './ConvertScreen';
 
 jest.mock('../../core/api/client/exchange.host/api', () => ({
   __esModule: true, // this property makes it work
@@ -32,7 +32,7 @@ jest.mock('./hooks', () => {
 
 describe('Screen: ConvertHomeScreen ', () => {
   it('renders correctly', () => {
-    const { getByTestId, getByText } = render(<ConvertHomeScreen />);
+    const { getByTestId, getByText } = render(<ConvertScreen />);
 
     expect(getByTestId('container-input-NGN')).toBeVisible();
     expect(getByTestId('container-input-USD')).toBeVisible();

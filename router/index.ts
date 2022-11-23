@@ -1,6 +1,6 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { Currency } from 'dinero.js';
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { ExchangeCurrency } from '../core/api/client';
 
 const useRouter = () => {

@@ -1,8 +1,9 @@
 import { useFocusEffect } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { Currency } from 'dinero.js';
-import { useCallback, useEffect, useState } from 'react';
-import { BackHandler, Button, FlatList, Text, TouchableOpacity, View } from 'react-native';
+import { useCallback } from 'react';
+import { BackHandler, FlatList, Text, TouchableOpacity, View } from 'react-native';
+
 import { ExchangeCurrency } from '../../core/api/client';
 
 type SelectCurrencyRouteParams = {
