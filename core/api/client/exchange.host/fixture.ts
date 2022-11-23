@@ -15,6 +15,33 @@ export const getRateSubResponse: EXHostGetRatesResponse = {
   },
 };
 
+export const latestRatesByBase = {
+  NGN: {
+    base: 'NGN',
+    success: true,
+    date: '01/11/22',
+    rates: {
+      USD: 0.0023,
+      ALL: 0.3222,
+    },
+  },
+  ALL: {
+    base: 'ALL',
+    success: true,
+    date: '01/11/22',
+    rates: {
+      USD: 0.123,
+    },
+  },
+  USD: {
+    base: 'USD',
+    success: true,
+    date: '01/11/22',
+    rates: {
+      NGN: 230,
+    },
+  },
+};
 export const getSupportedCurreniesStubResponse: EXHostSupportCurreniesResponse = {
   success: true,
   symbols: {

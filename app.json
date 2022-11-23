@@ -1,0 +1,13 @@
+{
+  "expo": {
+    "plugins": [
+      "@config-plugins/detox"
+    ],
+    "android": {
+      "package": "com.anonymous.exchangern"
+    },
+    "ios": {
+      "bundleIdentifier": "com.anonymous.exchangern"
+    }
+  }
+}

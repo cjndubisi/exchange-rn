@@ -55,7 +55,10 @@ const SelectCurrencyScreen = ({
     <FlatList
       data={currencies}
       renderItem={({ item }) => (
-        <TouchableOpacity key={item.symbol} onPress={() => goBack(item.symbol)}>
+        <TouchableOpacity
+          key={item.symbol}
+          testID={`select-currency-${item.symbol}`}
+          onPress={() => goBack(item.symbol)}>
           <View
             style={{
               flexDirection: 'row',

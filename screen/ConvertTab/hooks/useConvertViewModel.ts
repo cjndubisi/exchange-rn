@@ -1,12 +1,28 @@
 import { Currency } from 'dinero.js';
 import { useEffect, useMemo, useState } from 'react';
+import { Alert } from 'react-native';
 import { useExchangeClient } from '.';
 import exhostClient from '../../../core/api/client';
+import logger from '../../../core/logger';
 import dineroConverter from '../../../core/services/converter/dinero';
 import useRouter from '../../../router';
 
+const showAlert = () =>
+  Alert.alert(
+    'Ops!',
+    'Not yet Implemented 😏',
+    [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+    ],
+    {
+      cancelable: true,
+    }
+  );
+
 const useConvertScreenViewModel = () => {
-  const converter = dineroConverter.withClient(exhostClient);
   const [from, setFrom] = useState<Currency>('NGN');
   const [to, setTo] = useState<Currency>('USD');
   const [toValue, setToValue] = useState<string>('100');
@@ -16,10 +32,9 @@ const useConvertScreenViewModel = () => {
   const [clientBase, setClientBase] = useState<Currency>(from);
   const [focusBase, setFocusBase] = useState(from);
   const [totalCost, setTotalCost] = useState('100');
-  const { rates, currencies, loadingExchange, exchangeError, retry } = useExchangeClient(
-    exhostClient,
-    from
-  );
+  const { client, rates, currencies, loadingExchange, exchangeError, retry } =
+    useExchangeClient(clientBase);
+  const converter = dineroConverter.withClient(client);
 
   const convert = (value: string, source: 'from' | 'to') => {
     const startConversion = async () => {
@@ -31,6 +46,7 @@ const useConvertScreenViewModel = () => {
         },
         { processPercent: 0.03 }
       );
+
       if (source === 'from') {
         setFromValue(value);
         setToValue(result.price);
@@ -42,6 +58,7 @@ const useConvertScreenViewModel = () => {
     };
     const convertionBase = source === 'from' ? from : to;
     if (convertionBase !== clientBase) {
+      logger.log('reload');
       // setClientBase(convertionBase);
       return;
     }
@@ -56,20 +73,29 @@ const useConvertScreenViewModel = () => {
     try {
       startConversion();
     } catch (error) {
-      console.log(error);
+      logger.log(error);
     }
   };
 
+  const currentRate = useMemo(
+    () => rates?.rates.find((rate) => rate.destination === to),
+    [to, from, rates]
+  );
   useEffect(() => {
     convert(fromValue, 'from');
-  }, []);
+  }, [clientBase, loadingExchange, currentRate?.rate]);
 
   const updateFrom = () => {
     showSelectCurrency(currencies).then((currency) => {
       if (currency === to) {
         return;
       }
+      if (!currency) {
+        return;
+      }
       setFrom(currency ?? from);
+      setToValue('0');
+      setClientBase(currency);
     });
   };
 
@@ -79,15 +105,18 @@ const useConvertScreenViewModel = () => {
         return;
       }
       setTo(currency ?? to);
+      setToValue('0');
     });
   };
-  const currentRate = useMemo(
-    () => rates?.rates.find((rate) => rate.destination === to),
-    [to, from, rates]
-  );
+  const switchBases = () => {
+    setFrom(to);
+    setTo(from);
+    setClientBase(to);
+  };
+
   return {
     currentRate: currentRate?.rate,
-    transactionFee: 0.03,
+    transactionFee: '3%',
     totalCost,
     focusBase,
     updateFrom,
@@ -97,6 +126,8 @@ const useConvertScreenViewModel = () => {
     convert,
     fromCurrency: from,
     toCurrency: to,
+    switchBases,
+    onExchange: showAlert,
   };
 };
 

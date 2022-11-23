@@ -22,7 +22,6 @@ const makeExchange: ExchangeFactory['withClient'] = (client) => {
         },
       };
     });
-
     const result = await from.convert(req.to, {
       endpoint: Promise.resolve(rates),
     });

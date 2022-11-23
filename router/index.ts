@@ -17,7 +17,6 @@ const useRouter = () => {
       });
     });
   };
-
   return {
     showSelectCurrency,
   };

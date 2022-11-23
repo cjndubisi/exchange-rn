@@ -1,6 +1,6 @@
 export const Strings = {
   exchangeRate: 'Exchange Rates',
-  transactionFee: 'Transactin Fee',
+  transactionFee: 'Transaction Fee',
   exchange: 'Exchange',
   switch: 'Switch',
   totalCost: 'Total Cost',

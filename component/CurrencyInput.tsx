@@ -10,6 +10,7 @@ type CurrencyInputProp = {
   value: string;
   disabled: boolean;
   style?: any;
+  autoFocus?:boolean;
 };
 
 const Input = ({
@@ -19,6 +20,7 @@ const Input = ({
   onTextChange,
   disabled,
   style,
+  autoFocus
 }: CurrencyInputProp) => {
   const [isFocused, setIsFocus] = useState(false);
   const handleFocus = () => setIsFocus(true);
@@ -55,6 +57,7 @@ const Input = ({
               onFocus={handleFocus}
               onBlur={handleBlur}
               keyboardType="numeric"
+              autoFocus
             />
           );
         }}

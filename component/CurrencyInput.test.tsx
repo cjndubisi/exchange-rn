@@ -1,9 +1,7 @@
 import CurrencyInput from './CurrencyInput';
 import { render, screen, fireEvent, act } from '@testing-library/react-native';
-// import '@testing-library/jest-native';
 import '@testing-library/jest-native/extend-expect';
 
-// expect.extend({ toHaveStyle });
 
 describe('Component: CurrencyInput ', () => {
   it('has gray default gray borders', () => {

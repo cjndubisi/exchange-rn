@@ -1,8 +1,9 @@
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import CurrencyInput from '../../component/CurrencyInput';
-import useConvertScreenViewModel from './hooks/useConvertViewModel';
 import { Fontisto } from '@expo/vector-icons';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+
+import CurrencyInput from '../../component/CurrencyInput';
 import { Strings } from '../../resource';
+import useConvertScreenViewModel from './hooks/useConvertViewModel';
 
 const ConvertScreenHome = () => {
   const {
@@ -17,6 +18,8 @@ const ConvertScreenHome = () => {
     fromCurrency,
     totalCost,
     transactionFee,
+    switchBases,
+    onExchange
   } = useConvertScreenViewModel();
 
   return (
@@ -27,17 +30,17 @@ const ConvertScreenHome = () => {
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
       }}>
-      <View style={style.switchContainer}>
-        <Text style={[style.switchStyle, { paddingRight: 4 }]}>{Strings.switch}</Text>
-        <TouchableOpacity>
+      <TouchableOpacity testID="switch-base-destination" onPress={switchBases}>
+        <View style={style.switchContainer}>
+          <Text style={[style.switchStyle, { paddingRight: 4 }]}>{Strings.switch}</Text>
           <Fontisto
             style={[{ transform: [{ rotate: '90deg' }] }]}
             name="arrow-swap"
             size={18}
             color="blue"
           />
-        </TouchableOpacity>
-      </View>
+        </View>
+      </TouchableOpacity>
       <View>
         <CurrencyInput
           currency={fromCurrency}
@@ -45,6 +48,7 @@ const ConvertScreenHome = () => {
           onChangeCurrency={updateFrom}
           onTextChange={(text) => convert(text, 'from')}
           value={fromValue}
+          autoFocus
         />
       </View>
       <CurrencyInput
@@ -73,7 +77,7 @@ const ConvertScreenHome = () => {
             {fromCurrency} {totalCost}
           </Text>
         </View>
-        <TouchableOpacity style={style.buttonStyle}>
+        <TouchableOpacity style={style.buttonStyle} onPress={onExchange}>
           <Text style={style.buttonTextStyle}>{Strings.exchange}</Text>
         </TouchableOpacity>
       </View>
@@ -100,6 +104,7 @@ const style = StyleSheet.create({
   infoText: {
     fontSize: 14,
     fontWeight: '400',
+    letterSpacing: 1.1,
   },
   buttonStyle: {
     height: 50,
@@ -121,7 +126,7 @@ const style = StyleSheet.create({
   switchStyle: {
     fontSize: 14,
     color: 'blue',
-    fontWeight: '700',
+    fontWeight: '500',
   },
   switchContainer: {
     flex: 0,
