@@ -15,7 +15,7 @@ describe('Dinero', () => {
           amount: 50,
         });
         expect(price).toEqual('20422.57');
-        expect(plusFees).toEqual('20422.57');
+        expect(plusFees).toEqual('50.0');
         done();
       } catch (error) {
         done(error);
@@ -40,7 +40,7 @@ describe('Dinero', () => {
         );
 
         expect(price).toEqual('20422.57');
-        expect(plusFees).toEqual('21035.25');
+        expect(plusFees).toEqual('51.50');
         done();
       } catch (error) {
         done(error);

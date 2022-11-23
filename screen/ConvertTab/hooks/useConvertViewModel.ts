@@ -15,7 +15,7 @@ const useConvertScreenViewModel = () => {
   const [loadingConversion, setLoadingConversion] = useState(false);
   const [clientBase, setClientBase] = useState<Currency>(from);
   const [focusBase, setFocusBase] = useState(from);
-  const [totalCost, setTotalCost] = useState(from);
+  const [totalCost, setTotalCost] = useState('100');
   const { rates, currencies, loadingExchange, exchangeError, retry } = useExchangeClient(
     exhostClient,
     from
@@ -38,6 +38,7 @@ const useConvertScreenViewModel = () => {
         setToValue(value);
         setFromValue(result.price);
       }
+      setTotalCost(result.plusFees);
     };
     const convertionBase = source === 'from' ? from : to;
     if (convertionBase !== clientBase) {
@@ -64,7 +65,7 @@ const useConvertScreenViewModel = () => {
   }, []);
 
   const updateFrom = () => {
-    showSelectCurrency().then((currency) => {
+    showSelectCurrency(currencies).then((currency) => {
       if (currency === to) {
         return;
       }
@@ -73,7 +74,7 @@ const useConvertScreenViewModel = () => {
   };
 
   const updateTo = () => {
-    showSelectCurrency().then((currency) => {
+    showSelectCurrency(currencies).then((currency) => {
       if (currency === from) {
         return;
       }

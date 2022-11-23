@@ -1,6 +1,8 @@
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import CurrencyInput from '../../component/CurrencyInput';
 import useConvertScreenViewModel from './hooks/useConvertViewModel';
+import { Fontisto } from '@expo/vector-icons';
+import { Strings } from '../../resource';
 
 const ConvertScreenHome = () => {
   const {
@@ -14,10 +16,28 @@ const ConvertScreenHome = () => {
     toCurrency,
     fromCurrency,
     totalCost,
+    transactionFee,
   } = useConvertScreenViewModel();
 
   return (
-    <View style={{ flex: 1, padding: 16, justifyContent: 'flex-start', alignItems: 'flex-start' }}>
+    <View
+      style={{
+        flex: 1,
+        padding: 16,
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+      }}>
+      <View style={style.switchContainer}>
+        <Text style={[style.switchStyle, { paddingRight: 4 }]}>{Strings.switch}</Text>
+        <TouchableOpacity>
+          <Fontisto
+            style={[{ transform: [{ rotate: '90deg' }] }]}
+            name="arrow-swap"
+            size={18}
+            color="blue"
+          />
+        </TouchableOpacity>
+      </View>
       <View>
         <CurrencyInput
           currency={fromCurrency}
@@ -38,17 +58,25 @@ const ConvertScreenHome = () => {
 
       <View style={style.rateContainer}>
         <View style={style.infoRow}>
-          <Text style={style.infoText}>Exhange Rate</Text>
+          <Text style={style.infoText}>{Strings.exchangeRate}</Text>
           <Text style={style.infoText}>{currentRate}</Text>
         </View>
         <View style={style.infoRow}>
-          <Text style={style.infoText}>Transcation Fee</Text>
-          <Text style={style.infoText}>{currentRate}</Text>
+          <Text style={style.infoText}>{Strings.transactionFee}</Text>
+          <Text style={style.infoText}>{transactionFee}</Text>
         </View>
       </View>
-      <TouchableOpacity style={style.buttonStyle}>
-        <Text style={style.buttonTextStyle}>Convert</Text>
-      </TouchableOpacity>
+      <View style={{ flex: 1, width: '100%' }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <Text style={style.totalTextStyle}>{Strings.totalCost.toUpperCase()}</Text>
+          <Text style={style.totalTextStyle}>
+            {fromCurrency} {totalCost}
+          </Text>
+        </View>
+        <TouchableOpacity style={style.buttonStyle}>
+          <Text style={style.buttonTextStyle}>{Strings.exchange}</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -71,6 +99,7 @@ const style = StyleSheet.create({
   },
   infoText: {
     fontSize: 14,
+    fontWeight: '400',
   },
   buttonStyle: {
     height: 50,
@@ -80,12 +109,30 @@ const style = StyleSheet.create({
     backgroundColor: 'blue',
     justifyContent: 'center',
     alignContent: 'center',
+    marginBottom: 8,
+    marginTop: 8,
   },
   buttonTextStyle: {
     color: 'white',
     fontSize: 16,
     fontWeight: '400',
     textAlign: 'center',
+  },
+  switchStyle: {
+    fontSize: 14,
+    color: 'blue',
+    fontWeight: '700',
+  },
+  switchContainer: {
+    flex: 0,
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'flex-end',
+    paddingBottom: 8,
+  },
+  totalTextStyle: {
+    fontSize: 18,
+    fontWeight: '500',
   },
 });
 

@@ -28,7 +28,7 @@ const makeExchange: ExchangeFactory['withClient'] = (client) => {
     });
     const processing = fees?.processPercent ? fees.processPercent * 100 : 0;
 
-    const withFees = result.add(result.percentage(Math.floor(processing)));
+    const withFees = from.add(from.percentage(Math.floor(processing)));
     return {
       request: req,
       price: result.toFormat('0.00'),
