@@ -5,11 +5,17 @@ export type Rate = {
 };
 
 export interface ExchangeAPIClient {
-  getRates(): Promise<GetRateResponse>;
+  getRates(base: string): Promise<ExchangeRates>;
+  getSupportedCurrencies(): Promise<ExchangeCurrency[]>
 }
 
-export type GetRateResponse = {
+export type ExchangeRates = {
   base: string;
   rates: Rate[];
   timestamp: string;
+};
+
+export type ExchangeCurrency = {
+  symbol: string;
+  description: string;
 };

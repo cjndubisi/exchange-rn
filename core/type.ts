@@ -1,7 +1,9 @@
+import { Currency } from 'dinero.js';
+
 export namespace Converter {
   export interface Request {
-    from: string;
-    to: string;
+    from: Currency;
+    to: Currency;
     /// amount as real number
     amount: number;
   }
@@ -11,3 +13,5 @@ export namespace Converter {
     plusFees: string;
   }
 }
+ 
+ 

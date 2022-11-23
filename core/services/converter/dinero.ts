@@ -11,7 +11,7 @@ const makeExchange: ExchangeFactory['withClient'] = (client) => {
       precision: 2,
     });
 
-    const rates = await client.getRates().then((res) => {
+    const rates = await client.getRates(req.from).then((res) => {
       return {
         /// map to Dinero response type { rates: { EUR: 0.23, ... } }
         rates: {

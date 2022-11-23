@@ -1,6 +1,5 @@
-import { getRateSubResponse } from '../../api/client/exchanage.host/fixture';
-
-import exhostClient from '../../api/client/exchange.host';
+import exhostClient from '../../api/client';
+import { getRateSubResponse } from '../../api/client/exchange.host/fixture';
 import { mockSuccesfulResponse } from '../../util/test-util';
 import dineroConverter from './dinero';
 
